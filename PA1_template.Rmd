@@ -1,14 +1,14 @@
 ---
 title: "Reproducible Research: Peer Assessment 1"
-author: "Olusoji oluwafemi Daniel"
+author: "Owokotomo Olajumoke Evangelina"
 output: html_document
-date: "Monday, October 13, 2014"
+date: "Friday, February 13, 2015"
 html_document:
 keep_md: true
 ---
 
-
 ## Loading and preprocessing the data
+
 ```{r readdata, echo=TRUE}
 #Remove all variables on the present workscreen
 rm(list=ls())
@@ -25,7 +25,9 @@ activity$date <- as.POSIXct(as.Date(activity$date,format="%Y-%m-%d"))
 
 
 ## What is mean total number of steps taken per day?
+
 Plotting the total number of steps taken per day.
+
 ```{r histogram1, echo=TRUE}
 #Obtaining the total number of steps taken per day
 steps_sum <- tapply(activity$steps,activity$date,sum,na.rm=TRUE)
@@ -39,7 +41,8 @@ plot3 <- plot2+labs(x="Total Number of Steps",y="Count")
 print(plot3)
 ```
   
-Reporting the mean and median total number of steps taken per day
+## Reporting the mean and median total number of steps taken per day
+
 ```{r meanmedian1, echo=TRUE}
 #Computing the mean total steps taken per day 
 steps_mean <- tapply(activity$steps,activity$date,mean,na.rm=TRUE)
@@ -48,9 +51,11 @@ steps_median <- tapply(activity$steps,activity$date,median,na.rm=TRUE)
 steps_mean
 steps_median
 ```
+
 ## What is the average daily activity pattern?
   
 Computing the average number of steps taken every 5 minutes interval over all days considered
+
 ```{r intervalplot, echo=TRUE}
 #computing average number of steps taken every 5 minutes
 stepsinterval_mean <- as.numeric(tapply(activity$steps,activity$interval,mean,na.rm=TRUE))
@@ -65,7 +70,8 @@ plot4 <- plot4 + labs(title="Time Plot of Total Number of Steps taken every 5 Mi
 print(plot4)
 ```
   
-Finding the 5 minutes interval with the maximum average number of steps.
+## Finding the 5 minutes interval with the maximum average number of steps.
+
 ```{r intervalmaximum,echo=TRUE}
 interval_mean <- tapply(activity$steps,activity$interval,mean,na.rm=TRUE)
 max_mean <- max(interval_mean)
@@ -77,6 +83,7 @@ names(max_interval)
 ## Imputing missing values
 
 Counting the number of missing values in the data set.
+
 ```{r missingdata,echo=TRUE}
 activity$test1 <- complete.cases(activity)
 test2 <- table(activity$test1)
@@ -84,6 +91,7 @@ test2[c("FALSE")]
 ```
   
 Obtaining a new dataset by filling in the missing values with the mean of the 5 mins interval across the days
+
 ```{r newdata,echo=TRUE}
 #A loop to check for where missing values and fill them with the mean of the 5 
 #mins interval across the days
@@ -98,7 +106,8 @@ for(i in 1:length(activity$test))
   }
 ```  
   
-Plotting the Histogram of the filled Data Set
+## Plotting the Histogram of the filled Data Set
+
 ```{r newhistogram,echo=TRUE}
 steps_sum2 <- tapply(activity$steps,activity$date,sum,na.rm=TRUE)
 #Making a histogram of the total number of steps taken per day 
@@ -110,6 +119,7 @@ print(plot13)
 ```
   
 Reporting the mean and median total number of steps taken per day for the new dataset
+
 ```{r newmeanmedian, echo=TRUE}
 #Computing the mean total steps taken per day 
 steps_mean2 <- tapply(activity$steps,activity$date,mean,na.rm=TRUE)
@@ -120,7 +130,9 @@ steps_median2
 ```
 
 ## Are there differences in activity patterns between weekdays and weekends?
+
 Creating the factor variable day with two levels "weekday" and "weekend"
+
 ```{r weekdayweekend,echo=TRUE}
 ##Obtaining the days of the week the steps were taken
 activity$days <- weekdays(activity$date,abbreviate=TRUE)
@@ -138,7 +150,9 @@ for(i in 1:length(activity$days))
   }
 activity$group <- factor(activity$group,levels=c(1,2),labels=c("weekdays","weekend"))
 ```
+
 Making a Panel time Plot of of the 5-minute interval and the average number of steps taken.
+
 ```{r plotgroup, echo=TRUE}
 ##Dividing the data according the the day group i.e. weekday or weekend
 steps_weekend <- activity[(activity$group=="weekend"),]
@@ -165,5 +179,5 @@ rm(list=ls())
   
 Thank You.
 
-### Olusoji Oluwafemi Daniel,
+### Owokotomo Olajumoke Evangelina,
 ### University of Ibadan, Oyo State, Nigeria.
